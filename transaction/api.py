@@ -21,7 +21,11 @@ class PurchaseController(ControllerBase):
         seller = self.context.request.user
         point = get_object_or_404(SellingPoint, pk=body.selling_point_id)
         article_ids = sorted(body.articles)
-        articles = list(Article.objects.available_now().filter(pk__in=article_ids))
+        articles = list(
+            Article.objects.available_now()
+            .filter(pk__in=article_ids)
+            .annotate_price_for(customer)
+        )
         if len(articles) != len(article_ids):
             # Si certains articles n'ont pas été trouvés par la requête db,
             # ça signifie que la requête HTTP a transmis des id inexistants

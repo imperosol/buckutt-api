@@ -9,4 +9,3 @@ class Command(BaseCommand):
         call_command("flush", "--noinput")
         ContentType.objects.all().delete()
         call_command("loaddata", "fixtures.json")
-
