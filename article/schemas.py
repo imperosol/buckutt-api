@@ -1,6 +1,7 @@
 from ninja import ModelSchema
 
 from article.models import Article
+from buckutt.types import PrimaryKey
 
 
 class AvailableArticleSchema(ModelSchema):
@@ -14,3 +15,4 @@ class AvailableArticleSchema(ModelSchema):
         ]
 
     price: float
+    foundation: PrimaryKey

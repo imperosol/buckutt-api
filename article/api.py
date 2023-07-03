@@ -29,5 +29,6 @@ class ArticleController(ControllerBase):
             .for_user(customer)
             .in_point(selling_point)
             .annotate_price_for(customer)
+            .annotate_foundation_for(customer)
             .distinct()
         )

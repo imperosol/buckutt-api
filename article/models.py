@@ -46,6 +46,14 @@ class ArticleQuerySet(models.QuerySet):
         # noinspection PyTypeChecker
         return self.annotate(price=Subquery(min_price))
 
+    def annotate_foundation_for(self, user: User) -> "ArticleQuerySet":
+        prices = Price.objects.filter(
+            article=OuterRef("pk"), group__in=user.groups.all()
+        )
+        min_foundation = prices.order_by("amount").values("foundation_id")[:1]
+        # noinspection PyTypeChecker
+        return self.annotate(foundation=Subquery(min_foundation))
+
 
 class Article(models.Model):
     name = models.CharField(max_length=40, unique=True)
