@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "buckutt"
+version = "0.1.0"
+description = ""
+authors = ["maréchal <thgirod@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2.2"
+django-ninja = "^0.22.2"
+django-ninja-extra = "^0.19.1"
+orjson = "^3.9.1"
+python-dotenv = "^1.0.0"
+
+
+[tool.poetry.group.services.dependencies]
+psycopg = "^3.1.9"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+ruff = "^0.0.275"
+coverage = "^7.2.7"
+
+
+[tool.ruff]
+select = ["E", "F", "I", "U", "B", "C", "DJ", "RET", "SIM", "PL"]
+ignore = [
+    "E501",
+#    "B905",
+#    "B008",
+#    "DJ001",
+#    "PLR2004",
+#    "PLC1901"
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
