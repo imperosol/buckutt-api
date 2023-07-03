@@ -1,7 +1,6 @@
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db import models
 from django.db.models import OuterRef
-from django.utils.timezone import now
 
 from article.models import Article, Foundation, Price
 from buckutt.types import PrimaryKey
@@ -69,10 +68,8 @@ class Cart:
             raise Article.DoesNotExist(
                 f"Les articles suivants n'existent pas : {bad_ids}"
             )
-        t = now()
         purchases = [
             Purchase(
-                date=t,
                 price=a.price,
                 buyer=self.customer,
                 seller=self.seller,
