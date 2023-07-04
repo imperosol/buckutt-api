@@ -24,15 +24,16 @@ ruff = "^0.0.275"
 coverage = "^7.2.7"
 
 
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.4.3"
+mkdocstrings = "^0.22.0"
+mkdocs-material = "^9.1.18"
+mkdocstrings-python = "^1.1.2"
+
 [tool.ruff]
 select = ["E", "F", "I", "U", "B", "C", "DJ", "RET", "SIM", "PL"]
 ignore = [
-    "E501",
-#    "B905",
-#    "B008",
-#    "DJ001",
-#    "PLR2004",
-#    "PLC1901"
+    "E501",  # ligne trop longue, black gère ça tout seul
 ]
 
 [build-system]
