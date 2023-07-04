@@ -87,3 +87,6 @@ db.sqlite3
 
 ### Ruff ###
 .ruff_cache/
+
+### mkdocs ###
+/site/

@@ -3,6 +3,12 @@ from django.db import models
 
 
 class User(AbstractUser):
+    """
+    Utilisateur du système.
+
+    Remplace la classe auth.User de Django
+    """
+
     pin = models.CharField(max_length=50)
     nickname = models.CharField(max_length=50)
     credit = models.DecimalField(max_digits=8, decimal_places=2, default=0)

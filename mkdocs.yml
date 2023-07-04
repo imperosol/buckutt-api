@@ -29,4 +29,5 @@ plugins:
 
 nav:
   - Accueil: index.md
+  - Installation: install.md
   - API Reference: api.md
