@@ -26,6 +26,7 @@ class PurchaseSchema(ModelSchema):
         model_fields = [
             "id",
             "article",
+            "buyer",
             "seller",
             "point",
             "date",
@@ -33,6 +34,19 @@ class PurchaseSchema(ModelSchema):
         ]
 
     price: float
+
+
+class ReloadSchema(ModelSchema):
+    class Config:
+        model = Purchase
+        model_fields = [
+            "id",
+            "buyer",
+            "seller",
+            "point",
+            "date",
+        ]
+    amount: float
 
 
 class PurchaseFilterSchema(FilterSchema):
@@ -46,5 +60,17 @@ class PurchaseSummarySchema(Schema):
     article_name: str
     point_name: str
     price: float
+    count: PositiveInt
+    total: float
+
+
+class ReloadFilterSchema(FilterSchema):
+    before_date: datetime | None = Field(q="date__lte")
+    after_date: datetime | None = Field(q="date__gte")
+    buyer_id: PrimaryKey | None
+
+
+class ReloadSummarySchema(Schema):
+    point_name: str
     count: PositiveInt
     total: float

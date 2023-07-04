@@ -14,7 +14,7 @@ from transaction.schemas import (
     PurchaseRequest,
     PurchaseSchema,
     PurchaseSummarySchema,
-    ReloadRequest,
+    ReloadRequest, ReloadSchema, ReloadFilterSchema, ReloadSummarySchema,
 )
 from users.models import User
 from users.schemas import SimpleUserSchema
@@ -73,3 +73,16 @@ class ReloadController(ControllerBase):
         customer.credit += body.amount
         customer.save()
         return customer
+
+    @route.get("", response=list[ReloadSchema])
+    def fetch(self, filters: ReloadFilterSchema = Query(...)):
+        return filters.filter(Reload.objects.all())
+
+    @route.get("/summary", response=list[ReloadSummarySchema])
+    def fetch_summary(self, filters: ReloadFilterSchema = Query(...)):
+        reloads = filters.filter(Reload.objects.all())
+        return (
+            reloads.annotate(point_name=F("point__name"))
+            .values("point_name")
+            .annotate(count=Count("pk"), total=Sum("amount"))
+        )
