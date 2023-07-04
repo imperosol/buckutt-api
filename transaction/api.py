@@ -14,7 +14,7 @@ from transaction.schemas import (
     PurchaseRequest,
     PurchaseSchema,
     PurchaseSummarySchema,
-    ReloadRequest, ReloadSchema, ReloadFilterSchema, ReloadSummarySchema,
+    ReloadRequest, ReloadSchema, ReloadFilterSchema, ReloadSummarySchema, TotalAmountSchema,
 )
 from users.models import User
 from users.schemas import SimpleUserSchema
@@ -86,3 +86,10 @@ class ReloadController(ControllerBase):
             .values("point_name")
             .annotate(count=Count("pk"), total=Sum("amount"))
         )
+
+
+@api_controller("/treasury")
+class TreasuryController(ControllerBase):
+    @route.get("/global-credit", response=TotalAmountSchema)
+    def get_total_credit(self):
+        return User.objects.all().aggregate(total=Sum("credit"))

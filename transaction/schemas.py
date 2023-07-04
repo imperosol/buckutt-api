@@ -74,3 +74,7 @@ class ReloadSummarySchema(Schema):
     point_name: str
     count: PositiveInt
     total: float
+
+
+class TotalAmountSchema(Schema):
+    total: float
