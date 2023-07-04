@@ -1,15 +1,21 @@
-from decimal import Decimal
-
 from django.db import transaction
+from django.db.models import Count, F, Sum
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from ninja.params import Query
 from ninja_extra.controllers import ControllerBase, api_controller, route
 
 from article.models import Article
 from selling_points.models import SellingPoint
 from transaction.exceptions import NotEnoughCredit
-from transaction.models import Cart, Reload
-from transaction.schemas import PurchaseRequest, ReloadRequest
+from transaction.models import Cart, Purchase, Reload
+from transaction.schemas import (
+    PurchaseFilterSchema,
+    PurchaseRequest,
+    PurchaseSchema,
+    PurchaseSummarySchema,
+    ReloadRequest,
+)
 from users.models import User
 from users.schemas import SimpleUserSchema
 
@@ -34,6 +40,21 @@ class PurchaseController(ControllerBase):
         if cart.total_price > customer.credit:
             raise NotEnoughCredit
         cart.save()
+
+    @route.get("", response=list[PurchaseSchema])
+    def fetch(self, filters: PurchaseFilterSchema = Query(...)):
+        return filters.filter(Purchase.objects.all())
+
+    @route.get("/summary", response=list[PurchaseSummarySchema])
+    def fetch_summary(self, filters: PurchaseFilterSchema = Query(...)):
+        purchases = filters.filter(Purchase.objects.all())
+        return (
+            purchases.annotate(
+                article_name=F("article__name"), point_name=F("point__name")
+            )
+            .values("article_name", "point_name", "price")
+            .annotate(count=Count("pk"), total=Sum("price"))
+        )
 
 
 @api_controller("/reload")

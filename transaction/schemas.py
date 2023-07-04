@@ -1,7 +1,8 @@
+from datetime import datetime
 from decimal import Decimal
 
-from ninja import ModelSchema, Schema
-from pydantic import Field
+from ninja import FilterSchema, ModelSchema, Schema
+from pydantic import Field, PositiveInt
 
 from buckutt.types import PrimaryKey
 from transaction.models import Purchase
@@ -19,15 +20,31 @@ class ReloadRequest(Schema):
     amount: Decimal = Field(ge=0.01, decimal_places=2)
 
 
-class PurchaseResponse(ModelSchema):
+class PurchaseSchema(ModelSchema):
     class Config:
         model = Purchase
         model_fields = [
             "id",
-            "price",
             "article",
             "seller",
             "point",
             "date",
             "foundation",
         ]
+
+    price: float
+
+
+class PurchaseFilterSchema(FilterSchema):
+    before_date: datetime | None = Field(q="date__lte")
+    after_date: datetime | None = Field(q="date__gte")
+    buyer_id: PrimaryKey | None
+    foundation_id: PrimaryKey | None
+
+
+class PurchaseSummarySchema(Schema):
+    article_name: str
+    point_name: str
+    price: float
+    count: PositiveInt
+    total: float

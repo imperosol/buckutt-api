@@ -34,6 +34,7 @@ mkdocstrings-python = "^1.1.2"
 select = ["E", "F", "I", "U", "B", "C", "DJ", "RET", "SIM", "PL"]
 ignore = [
     "E501",  # ligne trop longue, black gère ça tout seul
+    "B008",  # Appel de fonction en argument de fonction
 ]
 
 [build-system]
