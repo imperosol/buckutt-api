@@ -29,6 +29,7 @@ class PurchaseController(ControllerBase):
     """
     Contrôleur pour les achats.
     """
+
     @route.post("")
     @transaction.atomic
     def create(self, body: PurchaseRequest):
@@ -90,6 +91,7 @@ class ReloadController(ControllerBase):
     Les rechargements sont des transactions qui permettent à un utilisateur
     d'ajouter du crédit à son compte.
     """
+
     @route.post("", response=SimpleUserSchema)
     @transaction.atomic
     def create(self, body: ReloadRequest):
@@ -150,6 +152,7 @@ class TreasuryController(ControllerBase):
     """
     Contrôleur pour la trésorerie.
     """
+
     @route.get("/global-credit", response=TotalAmountSchema)
     def get_total_credit(self):
         """

@@ -13,6 +13,7 @@ class Category(models.Model):
     Attributes:
         name (CharField): nom de la catégorie
     """
+
     name = models.CharField(max_length=40, unique=True)
 
     def __str__(self):
@@ -23,6 +24,7 @@ class ArticleQuerySet(models.QuerySet):
     """
     QuerySet personnalisé pour les articles.
     """
+
     def available(self) -> "ArticleQuerySet":
         """
         Filtre le queryset pour ne garder que les articles disponibles.
@@ -117,6 +119,7 @@ class Article(models.Model):
         stock (IntegerField): stock de l'article
         is_removed (BooleanField): indique si l'article est supprimé
     """
+
     name = models.CharField(max_length=40, unique=True)
     category = models.ForeignKey(
         to=Category, related_name="articles", on_delete=models.CASCADE
@@ -143,6 +146,7 @@ class Foundation(models.Model):
         mail (EmailField): adresse mail de la fondation
         is_removed (BooleanField): indique si la fondation est supprimée
     """
+
     name = models.CharField(max_length=40, unique=True)
     website = models.URLField()
     mail = models.EmailField(unique=True)
@@ -161,6 +165,7 @@ class Period(models.Model):
         start (DateTimeField): date de début de la période
         end (DateTimeField): date de fin de la période (optionnelle)
     """
+
     name = models.CharField(max_length=50, unique=True)
     start = models.DateTimeField()
     end = models.DateTimeField(null=True, blank=True)
@@ -184,6 +189,7 @@ class Price(models.Model):
         group (ForeignKey): groupe d'utilisateurs auquel le prix s'applique
         is_removed (BooleanField): indique si le prix est supprimé
     """
+
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     article = models.ForeignKey(
         to=Article, related_name="prices", on_delete=models.CASCADE

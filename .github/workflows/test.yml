@@ -1,0 +1,45 @@
+name: Lint et test
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branches:
+      - master
+      - dev
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.11
+      - name: Install black and ruff
+        run: |
+          pip install black
+          pip install ruff
+      - name: Check code style
+        run: black --check .
+      - name: Check code quality
+        run: ruff .
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup_project
+      - name: Run tests
+        run: poetry run coverage run ./manage.py test
+      - name: Generate coverage report
+        run: |
+          poetry run coverage report
+          poetry run coverage html
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage_report

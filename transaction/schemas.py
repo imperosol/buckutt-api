@@ -17,6 +17,7 @@ class PurchaseRequest(Schema):
         selling_point_id (PrimaryKey): id du point de vente
         articles (list[PrimaryKey]): liste des ids des articles
     """
+
     buyer_id: PrimaryKey
     selling_point_id: PrimaryKey
     articles: list[PrimaryKey]
@@ -31,6 +32,7 @@ class ReloadRequest(Schema):
         selling_point_id (PrimaryKey): id du point de vente
         amount (Decimal): montant du rechargement
     """
+
     buyer_id: PrimaryKey
     selling_point_id: PrimaryKey
     amount: Decimal = Field(ge=0.01, decimal_places=2)
@@ -41,6 +43,7 @@ class PurchaseSchema(ModelSchema):
     Schéma de sérialisation pour un achat
     ([Purchase][transaction.models.Purchase]).
     """
+
     class Config:
         model = Purchase
         model_fields = [
@@ -61,6 +64,7 @@ class ReloadSchema(ModelSchema):
     Schéma de sérialisation pour un rechargement
     ([Reload][transaction.models.Reload]).
     """
+
     class Config:
         model = Purchase
         model_fields = [
@@ -84,6 +88,7 @@ class PurchaseFilterSchema(FilterSchema):
         buyer_id (PrimaryKey): pour sélectionner les achats d'un acheteur
         foundation_id (PrimaryKey): pour sélectionner les achats d'une fondation
     """
+
     before_date: datetime | None = Field(q="date__lte")
     after_date: datetime | None = Field(q="date__gte")
     buyer_id: PrimaryKey | None
@@ -101,6 +106,7 @@ class PurchaseSummarySchema(Schema):
         count (PositiveInt): nombre d'articles achetés
         total (float): prix total de l'achat
     """
+
     article_name: str
     point_name: str
     price: float
@@ -117,6 +123,7 @@ class ReloadFilterSchema(FilterSchema):
         after_date (datetime): pour les rechargements après cette date
         buyer_id (PrimaryKey): pour sélectionner les rechargements d'un acheteur
     """
+
     before_date: datetime | None = Field(q="date__lte")
     after_date: datetime | None = Field(q="date__gte")
     buyer_id: PrimaryKey | None
@@ -131,6 +138,7 @@ class ReloadSummarySchema(Schema):
         count (PositiveInt): nombre de rechargements
         total (float): montant total des rechargements
     """
+
     point_name: str
     count: PositiveInt
     total: float
@@ -143,4 +151,5 @@ class TotalAmountSchema(Schema):
     Attributes:
         total (float): montant total
     """
+
     total: float

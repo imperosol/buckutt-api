@@ -9,6 +9,7 @@ class SimpleCategorySchema(ModelSchema):
     Schéma de sérialisation pour une catégorie d'article
     ([Category][article.models.Category]).
     """
+
     class Config:
         model = Article
         model_fields = [
@@ -23,6 +24,7 @@ class SimpleArticleSchema(ModelSchema):
     contenant uniquement son id, son nom et l'id de sa catégorie
     ([Article][article.models.Article]).
     """
+
     class Config:
         model = Article
         model_fields = [
@@ -39,6 +41,7 @@ class AvailableArticleSchema(ModelSchema):
     et l'id de sa fondation
     ([Article][article.models.Article]).
     """
+
     class Config:
         model = Article
         model_fields = [

@@ -13,6 +13,7 @@ class ArticleController(ControllerBase):
     """
     Contrôleur pour les articles.
     """
+
     @route.get("/available-articles", response=list[AvailableArticleSchema])
     def fetch_available(self, selling_point_id: PrimaryKey, user_id: PrimaryKey):
         """

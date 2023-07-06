@@ -9,6 +9,7 @@ class SimplePointSchema(ModelSchema):
     contenant uniquement son id et son nom
     ([SellingPoint][selling_points.models.SellingPoint]).
     """
+
     class Config:
         model = SellingPoint
         model_fields = [
