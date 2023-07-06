@@ -1,0 +1,3 @@
+# Model
+
+::: article.models

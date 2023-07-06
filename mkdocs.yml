@@ -1,6 +1,12 @@
-site_name: My Docs
+site_name: BuckUTT API
+site_author: Thomas Girod
+site_description: Une preuve de concept pour une réécriture de l'API BuckUTT
+repo_url: https://github.com/imperosol/buckutt-api
+repo_name: BuckUTT API
 
 theme:
+  features:
+    - navigation.footer
   name: material
   palette:
     - media: "(prefers-color-scheme: light)"
@@ -25,9 +31,46 @@ theme:
 
 
 plugins:
-  - mkdocstrings
-
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_source: false
+            show_inherited_members: true
+            merge_init_into_class: true
+            show_root_toc_entry: false
+  - search
 nav:
   - Accueil: index.md
+  - Philosophie du projet: philosophie.md
   - Installation: install.md
-  - API Reference: api.md
+  - Référence de l'API:
+      - article:
+        - Models: api/article/models.md
+        - API: api/article/api.md
+        - Schemas: api/article/schemas.md
+      - transaction:
+        - Models: api/transaction/models.md
+        - API: api/transaction/api.md
+        - Schemas: api/transaction/schemas.md
+      - selling_points:
+        - Models: api/selling_points/models.md
+        - Schemas: api/selling_points/schemas.md
+      - users:
+        - Models: api/users/models.md
+        - Schemas: api/users/schemas.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+
+watch:
+  - users
+  - selling_points
+  - transaction
+  - article
